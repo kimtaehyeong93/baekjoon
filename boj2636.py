@@ -35,8 +35,8 @@ mymap = [[i for i in map(int,input().split())] for i in range(h)]
 
 iter = 0
 ans = []
-dx = [1, -1, 0, 0]
-dy = [0, 0, 1, -1]
+dx = [1, 0, -1, 0]
+dy = [0, 1, 0, -1]
 visited = [[0] * w for i in range(h)]
 while True:
     numof1 = 0
