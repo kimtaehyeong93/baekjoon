@@ -2,27 +2,38 @@ import sys
 sys.stdin = open("example.txt", "r")
 
 def DFS(y,x):
-    m += 1
-    dx = [1, -1, 0, 0]
-    dy = [0, 0, 1, -1]
-    k = 0
-    m = 2
-    if 0 <= y+dy[k] <= num - 1 and 0 <= x+dx[k] <= num - 1:
-        if mymap[y+dy[k]][x+dx[k]] == 1:
-            mymap[y + dy[k]][x + dx[k]] = m
-            y = y + dy[k]
-            x = x + dx[k]
-            DFS(y,x)
-        else:
-            k += 1
-    else:
-        k += 1
+    global ans, mymap, temp
+    mymap[y][x] = 0
+    temp += 1
+
+    for dir in range(4):
+        ny = y + dy[dir]
+        nx = x + dx[dir]
+
+        if 0 <= ny <= N-1 and 0 <= nx <= N-1 and mymap[ny][nx] == 1:
+            DFS(ny,nx)
 
 
-num = int(input())
 
-mymap = [[i for i in input()] for j in range(num)]
+dx = [1, -1, 0, 0]
+dy = [0, 0, 1, -1]
 
-for i in range(num):
-    for j in range(num):
+N = int(input())
+mymap = []
+for _ in range(N):
+    mymap.append(list(map(int,list(input()))))
+
+ans = []
+
+for i in range(N):
+    for j in range(N):
         mymap[i][j] = int(mymap[i][j])
+        if mymap[i][j] == 1:
+            temp = 0
+            DFS(i,j)
+            ans.append(temp)
+ans.sort()
+print(len(ans))
+for i in range(len(ans)):
+    print(ans[i])
+
