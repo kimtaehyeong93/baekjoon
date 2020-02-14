@@ -1,5 +1,6 @@
 import sys
 sys.stdin = open("example.txt", "r")
+
 def issafe(y,x):
     if 0 <= y <= h-1 and 0 <= x <= w-1:
         return True
@@ -7,14 +8,18 @@ def issafe(y,x):
         return False
 
 def DFS(y,x):
+    global isfound
     if y == 0 or y == h - 1 or x == 0 or x == w - 1:
-        return 1
+        isfound = True
+        return
     visited[y][x] = 1
     for dir in range(4):
         ny = y + dy[dir]
         nx = x + dx[dir]
         if issafe(ny,nx) and mymap[ny][nx] == 0 and visited[ny][nx] == 0:
-            return DFS(ny,nx)
+            DFS(ny,nx)
+        if isfound: return
+
 
 h, w = map(int,input().split())
 
@@ -38,7 +43,9 @@ while True:
         for j in range(w):
             if mymap[i][j] == 1:
                 visited = [[0] * w for i in range(h)]
-                if DFS(i,j) == 1:
+                isfound = False
+                DFS(i,j)
+                if isfound:
                     meltingpoint[i][j] = 1
     for i in range(h):
         for j in range(w):
@@ -49,4 +56,7 @@ while True:
     ans.append(cnt)
 
 print(len(ans))
-print(ans[-1] - ans[-2])
+if len(ans) > 1:
+    print(ans[-1] - ans[-2])
+else:
+    print(ans[-1])
